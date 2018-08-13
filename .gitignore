@@ -1,5 +1,4 @@
 **/*.png
-excel_result/
 data/
 **/*_result
-
+.idea/
