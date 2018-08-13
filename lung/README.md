@@ -129,10 +129,10 @@ ground truth label，与算法匹配好的聚类结果通过调用ClusteringMetr
 ## 代码运行指令(默认在model_evaluation目录下)
 
 ### 肺结节模型评估（生成结果默认存放在./LungNoduleEvaluation_result中）：
+当运行程序时务必确认存储结节分类信息的.xls文件在当前工作目录下，且命名为classname_labelname_mapping.xls，详见https://git.infervision.com/w/1mm%E8%96%84%E5%B1%82%E6%A3%80%E6%B5%8B/
 
 主程序：lung.lung_nodule_test.py
-如果希望自定义config中的配置参数，可以自行调用evaluator.LungNoduleEvaluatorOffline并传入自定义参数，使用方式可以参考lung_nodule_test中
-的main函数
+如果希望自定义config中的配置参数，可以自行调用evaluator.LungNoduleEvaluatorOffline并传入自定义参数，使用方式可以参考lung_nodule_test中的main函数
 
 以下功能均会默认在当前目录下的LungNoduleEvaluation_result文件夹中生成结果,用户可以通过改变LungNoduleEvaluatorOffline的result_save_dir
 属性来改变存放地点

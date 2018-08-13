@@ -1,5 +1,13 @@
 # 模型组评分系统说明
 
+运行肺、心脏、脑部、胸腔等各项目的具体流程请见各项目子文件夹的README.md
+
+## python库的版本依赖
+
+objmatch: networkx <= 2.0
+
+model_eval: pandas >= 0.22.0
+
 ## 评估指标可视化
 
 ### RP曲线
