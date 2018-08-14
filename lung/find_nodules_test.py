@@ -56,9 +56,9 @@ def parse_args():
 if __name__ == '__main__':
     args = parse_args()
     find_nodules_eval = evaluator.FindNodulesEvaluator(gt_anno_dir=args.gt_anno_dir, if_nodule_cls=args.nodule_cls,
-                                                       same_box_threshold_gt=config.FIND_NODULES.SAME_BOX_THRESHOLD_PRED,
-                                                       score_threshold_gt=config.FIND_NODULES.SCORE_THRESHOLD_PRED,
-                                                       z_threshold_gt=config.CLASS_Z_THRESHOLD_PRED)
+                                                       same_box_threshold_gt=config.FIND_NODULES.SAME_BOX_THRESHOLD_GT,
+                                                       score_threshold_gt=config.FIND_NODULES.SCORE_THRESHOLD_GT,
+                                                       z_threshold_gt=config.CLASS_Z_THRESHOLD_GT)
 
     if not args.clustering_test:
         # test nodule count, no nodule cls, all set to 'nodule' by default:
