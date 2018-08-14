@@ -140,3 +140,4 @@ config.FIND_NODULES.SCORE_THRESHOLD_GT = 0.4
 #######################
 
 config.THICKNESS_THRESHOLD = 0
+config.FSCORE_BETA = 1.0

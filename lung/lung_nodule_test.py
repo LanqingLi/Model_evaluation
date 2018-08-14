@@ -1,6 +1,7 @@
 import model_eval.lung.evaluator as evaluator
 import argparse
 import numpy as np
+from lung.config import config
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Infervision auto test')
@@ -78,7 +79,8 @@ if __name__ == '__main__':
                                             if_nodule_threshold=args.nodule_threshold,
                                             if_nodule_json=args.nodule_json,
                                             thickness_thresh=args.thickness_thresh,
-                                            conf_thresh=np.linspace(0.1, 0.9, num=9).tolist())
+                                            conf_thresh=np.linspace(0.1, 0.9, num=9).tolist(),
+                                            fscore_beta=config.FSCORE_BETA)
 
     if model_eval.if_nodule_json:
         model_eval.generate_df_nodules_to_json()
