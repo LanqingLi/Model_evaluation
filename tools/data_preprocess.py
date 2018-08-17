@@ -1,7 +1,9 @@
 # coding:utf-8
 import xlrd
 import pydicom as dicom
+import numpy as np
 import os
+
 
 def get_label_classes_from_xls(filename):
     '''
@@ -56,6 +58,52 @@ def get_label_classes_from_xls(filename):
 
     return class_list1, label_classes, class_dict, conf_thresh, cls_weight_dict, cls_z_threshold_pred_dict, cls_z_threshold_gt_dict
 
+def get_label_classes_from_xls_seg(filename):
+    '''
+    get labels and training classes with mapping relation from xls
+    :param filename: xls records
+    :return:
+    class_list: type: list, a list of classnames
+    label_classes: type:list, a list of labels in xml label files
+    class_dict: type: dict. mapping label name to class name. e.g: dict[label_name]=class_name
+    '''
+    # read labelDict dictionary from xlsx file
+    classDictSheet = xlrd.open_workbook(filename).sheet_by_index(0)
+    label_classes = []
+
+    class_dict = dict()  # label to class
+    conf_thresh = dict()
+    cls_weight_dict = dict()
+    cls_z_threshold_pred_dict = dict()
+    cls_z_threshold_gt_dict = dict()
+    conf_thresh['__background__'] = 1.0
+    class_list = []
+    class_list.append('__background__')
+    for i in range(1, classDictSheet.nrows):
+        # add class name
+        label_name = classDictSheet.row(i)[0].value.strip(' ')
+        class_name = classDictSheet.row(i)[1].value.strip(' ')
+
+        label_name = label_name.encode("utf-8")
+        class_name = class_name.encode("utf-8")
+        label_classes.append(label_name)
+
+        class_list.append(class_name)
+        class_dict[label_name] = class_name
+
+        thresh = classDictSheet.row(i)[2].value
+        assert isinstance(thresh, float), 'thresh must be float type, check xls'
+        conf_thresh[class_name] = thresh
+
+        weight = classDictSheet.row(i)[3].value
+        assert isinstance(weight, float), 'weight must be float type, check xls'
+
+    # remove repeat element in class
+    class_list1 = sorted(set(class_list), key=class_list.index)
+
+    return class_list1, label_classes, class_dict, conf_thresh, cls_weight_dict
+
+
 def get_instance_number(dcm_path):
     '''
     用pydicom读取instanceNumber
@@ -71,6 +119,19 @@ def rename_data(src_dir, src_name, tar_name):
         print id
         os.rename(os.path.join(src_dir, id), os.path.join(src_dir, id.replace(src_name, tar_name)))
 
+def intensity_window(array, lower_bnd, upper_bnd):
+    array[array < lower_bnd] = lower_bnd
+    array[array > upper_bnd] = upper_bnd
+
+def window_convert( pix, center, width):
+    pix_out = np.zeros(shape=pix.shape, dtype=np.uint8)
+    low = center - width / 2 # 0
+    hig = center + width / 2 # 60
+    w1 = np.where(pix > low) and np.where(pix < hig)
+    pix_out[w1] = ((pix[w1] - center + 0.5) / (width - 1) + 0.5) * 255
+    pix_out[np.where(pix <= low)] = 0
+    pix_out[np.where(pix >= hig)] = 255
+    return pix_out
 
 if __name__ == '__main__':
     src_dir = '/mnt/data2/model_evaluation_test/test_data/find_nodules/0801_lulin_review/anno/1000nodules'

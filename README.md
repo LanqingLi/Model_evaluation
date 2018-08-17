@@ -6,7 +6,7 @@
 
 objmatch: networkx <= 2.0
 
-model_eval: pandas >= 0.22.0
+model_eval: pandas >= 0.22.0, pandas != 0.23.0
 
 ## 评估指标可视化
 
@@ -20,4 +20,14 @@ python RP_plot.py --json
 由模型评估生成的.xlsx文件画图：
 python RP_plot.py
 
+```
+
+### ROC 曲线
+在ROC_plot中定义读入文件的路径、文件名，支持.xlsx与.json
+```
+由模型评估生成的.json文件画图：
+python ROC_plot.py --json
+
+由模型评估生成的.xlsx文件画图：
+python ROC_plot.py
 ```

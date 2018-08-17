@@ -1,6 +1,6 @@
 # 模型组评分系统肺部CT模块说明
 
-版本号：0.0.2
+版本号：0.1.1
 
 该模块主要功能是对肺部CT项目的模型输出进行评估，用以筛选最优模型。目前版本的主要功能是针对肺结节检出、分类的模型（Faster RCNN/SSD）,将模型输出的2D
 层面的框匹配成3D的结节，并统计其分类检出的tp、fp、fscore等指标，画出ROC曲线。
@@ -129,7 +129,7 @@ ground truth label，与算法匹配好的聚类结果通过调用ClusteringMetr
 ## 代码运行指令(默认在model_evaluation目录下)
 
 ### 肺结节模型评估（生成结果默认存放在./LungNoduleEvaluation_result中）：
-当运行程序时务必确认存储结节分类信息的.xls文件在当前工作目录下，且命名为classname_labelname_mapping.xls，详见https://git.infervision.com/w/1mm%E8%96%84%E5%B1%82%E6%A3%80%E6%B5%8B/
+当运行程序时务必确认存储结节分类信息的.xls文件在当前工作目录./lung下，且命名为classname_labelname_mapping.xls，详见https://git.infervision.com/w/1mm%E8%96%84%E5%B1%82%E6%A3%80%E6%B5%8B/
 
 主程序：lung.lung_nodule_test.py
 如果希望自定义config中的配置参数，可以自行调用evaluator.LungNoduleEvaluatorOffline并传入自定义参数，使用方式可以参考lung_nodule_test中的main函数

@@ -5,7 +5,7 @@ from lung.config import config
 def parse_args():
     parser = argparse.ArgumentParser(description='Infervision auto test')
     parser.add_argument('--data_dir',
-                        help='predict result stored dir, .npy by default',
+                        help='predict result stored dir, .json by default',
                         default='./json_for_auto_test',
                         type=str)
     parser.add_argument('--data_type',
