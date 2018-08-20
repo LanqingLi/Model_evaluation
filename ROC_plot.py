@@ -24,6 +24,6 @@ if __name__ == '__main__':
     cls_key = 'class'
     args = parse_args()
     if args.json:
-        ROC_plot_json(json_save_dir=json_save_dir, json_name=json_name, sheet_name=sheet_name, xmin=xmin, xmax=xmax)
+        ROC_plot_json(json_save_dir=json_save_dir, json_name=json_name, sheet_name=sheet_name, xmin=xmin, xmax=xmax, cls_key=cls_key)
     else:
-        ROC_plot_xlsx(xlsx_save_dir=xlsx_save_dir, xlsx_name=xlsx_name, sheet_name=sheet_name, xmin=xmin, xmax=xmax)
+        ROC_plot_xlsx(xlsx_save_dir=xlsx_save_dir, xlsx_name=xlsx_name, sheet_name=sheet_name, xmin=xmin, xmax=xmax, cls_key=cls_key)
