@@ -6,7 +6,17 @@
 
 objmatch: networkx <= 2.0
 
-model_eval: pandas >= 0.22.0, pandas != 0.23.0
+model_eval: pandas >= 0.22.0, pandas != 0.23.0, opencv-python >= 3.3.0.10
+
+## 超参数调整
+
+### F-Score
+对于通过f-score选择最优模型的功能模块(lung, brain等)，在该模块目录下的配置文件config.py中可以设置config.FSCORE_BETA。该参数
+为f-score中recall和precision的相对权重，越大则precision相对recall的权重越大，默认值为1,具体定义见https://en.wikipedia.org/wiki/F1_score
+
+### confidence threshold
+对于具有多置信度概率筛选功能的模块(lung, brain等)，在该模块目录下的配置文件config.py中可以设置config.TEST.CONF_THRESHOLD。评估程序
+会根据其中的一系列阈值统计模型输出结果。
 
 ## 评估指标可视化
 

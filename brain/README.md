@@ -7,7 +7,17 @@
 ## 环境安装
 
 请首先配置公司pypi源: 详见https://git.infervision.com/w/%E7%A0%94%E5%8F%91/%E5%86%85%E9%83%A8python%E4%BB%93%E5%BA%93%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/
-	
+
+### 安装objmatch
+
+先删除本地的`objmatch`
+
+ -sudo pip uninstall objmatch
+
+安装'objmatch'
+
+ -sudo pip install objmatch
+ 
 ### 安装model_eval
 
 先删除本地的`model_eval`
@@ -19,7 +29,7 @@
  -sudo pip install model_eval
  
 ## 输入输出测试集等相关格式
-详见https://git.infervision.com/T1745　中出血性卒中相关文档
+详见https://git.infervision.com/T1745 中出血性卒中相关文档
 
 ##　文件说明
 evaluator.py:　模型评估的主要功能实现 
