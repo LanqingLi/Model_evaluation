@@ -1,8 +1,9 @@
 # 模型评分系统脑部CT模块说明
 
-版本号：0.1.1
+版本号：0.1.4
 
 该模块主要功能是对脑部CT项目的模型输出进行评估，用以筛选最优模型。目前版本的主要功能是针对脑卒中出血的语义分割模型，统计其分类的tp、fp、fscore、出血体积等指标，画出分割的contour、RP、ROC曲线。
+最新版0.1.3实现了evaluator的offline(以文件形式读入模型预测结果，用于inference和evaluation的解耦运行)和online(直接将模型预测输出作为输入，实现inference和evaluation的一体化运行)功能
 	
 ## 环境安装
 
@@ -52,6 +53,8 @@ config.py: 统一存放评估系统后处理相关参数默认值的配置文件
 
 ### 语义分割功能
 
+offline模式：
+
 1. 多分类(目前仅在二分类数据上有测试)：
 
 -调用multi_class_evaluation:
@@ -74,6 +77,75 @@ config.py: 统一存放评估系统后处理相关参数默认值的配置文件
  　python -m brain.semantic_seg_test --gt_dir [ground truth label directory] --data_type npy --data_dir [predict label directory] \
  　--img_dir [image directory] --draw
 
+online模式：
+
+- 在inference时让模型输出predict_data_list, gt_nrrd_list, img_nrrd_list, patient_list, data_type,　各变量定义如下：
+
+ - predict_data_list: list of predict class score, default type: float32, default shape: [figure number, class number, 512, 512] 
+ (background class number = 0), softmax value in range [0, 1]
+ - gt_nrrd_list: list of ground truth nrrd mask, default type: int16, default shape: [512, 512, figure number]
+ - img_nrrd_list: list of nrrd image, default type: int16, default shape: [512, 512, figure number]
+ - patient_list: list of patient id, e.g.: [patient_id_1, patient_id_2, ...]
+
+!!!注意：此处patient_list的顺序必须与其余几个list顺序一致!!!
+
+之后初始化BrainSemanticSegEvaluatorOnline类：
+
+brain_evaluator = evaluator.BrainSemanticSegEvaluatorOnline(predict_data_list=predict_data_list,
+                                          gt_nrrd_list=gt_nrrd_list,
+                                          img_nrrd_list=img_nrrd_list,
+                                          patient_list=patient_list)
+                                          
+之后调用brain_evaluator如下函数即可：
+
+1. 多分类(目前仅在二分类数据上有测试)：
+
+-调用multi_class_evaluation: brain_evaluator.multi_class_evaluation()
+
+2. 二分类：
+
+-调用binary_class_evaluation: brain_evaluator.binary_class_evaluation()
+ 
+3. 画分割区域轮廓图：
+
+- 二分类：
+ - 多阈值对比图　(调用binary_class_contour_plot_multi_thresh, 阈值在config.TEST.CONF_THRESHOLD定义):
+   brain_evaluator.binary_class_contour_plot_multi_thresh()
+ - 单阈值对比图 (调用binary_class_contour_plot_single_thresh，阈值在config.THRESH定义)
+ 　brain_evaluator.binary_class_contour_plot_single_thresh()
+                                          
+onlineIter模式：
+
+此模式接收的是一个带有predict_key(模型预测结果关键词), gt_key(ground truth标记关键词), img_key(原图数据关键词)和patient_key(病人号关键词)
+的数据迭代器(data_iter),这样子在评估模型预测结果时会按照病人号逐个读取处理而不是一次性读入所有病人的数据，避免数据量大时内存不够的问题。
+
+具体操作，在生成data_iter后初始化BrainSemanticSegEvaluatorOnlineIter类：
+
+brain_evaluator = evaluator.BrainSemanticSegEvaluatorOnlineIter(data_iter=data_iter ,
+                                          predict_key=predict_key,
+                                          gt_key=gt_key,
+                                          img_key=img_key,
+                                          patient_key=patient_key)
+
+                                          
+之后调用brain_evaluator如下函数即可：
+
+1. 多分类(目前仅在二分类数据上有测试)：
+
+-调用multi_class_evaluation: brain_evaluator.multi_class_evaluation()
+
+2. 二分类：
+
+-调用binary_class_evaluation: brain_evaluator.binary_class_evaluation()
+ 
+3. 画分割区域轮廓图：
+
+- 二分类：
+ - 多阈值对比图　(调用binary_class_contour_plot_multi_thresh, 阈值在config.TEST.CONF_THRESHOLD定义):
+   brain_evaluator.binary_class_contour_plot_multi_thresh()
+ - 单阈值对比图 (调用binary_class_contour_plot_single_thresh，阈值在config.THRESH定义)
+ 　brain_evaluator.binary_class_contour_plot_single_thresh()
+ 
 ###　实例分割功能
 
 目前模型组业务中尚未涉及实例分割，今后会根据需求添加
@@ -98,7 +170,11 @@ BrainInstanceSegEvaluatorOffline（实例分割模型评估）：
  
 ## 注意事项
 
- - 在模型输出的一致性测试过程中，发现与伟导代码给出的结果tp一致，但fp、tn都要偏大。后来证实是因为脑部项目的源代码中，对于ground truth label 以及predict label无重合的图(tp = 0)直接忽略，而目前的评分系统将所有图都统计在内，所以导致了fp偏大（gt没有出血而模型预测有出血，或者两者都有但没有重合部分）、fn偏大（模型预测没有出血但gt有出血，或者两者都有但没有重合）。经和伟导讨论，决定保持现在这种统计方式。
+ - 在模型输出的一致性测试过程中，发现与伟导代码给出的结果tp一致，但fp、tn都要偏大。后来证实是因为脑部项目的源代码中，对于ground truth label
+ 以及predict label无重合的图(tp = 0)直接忽略，而目前的评分系统将所有图都统计在内，所以导致了fp偏大（gt没有出血而模型预测有出血，或者两者都有但没有重合部分）、
+ fn偏大（模型预测没有出血但gt有出血，或者两者都有但没有重合）。经和伟导讨论，决定保持现在这种统计方式。
  
+ - 在测试过程中，发现较老opencv-python的cv2.findContours函数的输出参数为两个，而基于较新版本(3.3.0.10)开发的cv2.findContours函数
+ 返回参数为三个，故要求opencv-python版本>=3.3.0.10
  
 

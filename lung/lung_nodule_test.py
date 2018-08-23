@@ -79,7 +79,7 @@ if __name__ == '__main__':
                                             if_nodule_threshold=args.nodule_threshold,
                                             if_nodule_json=args.nodule_json,
                                             thickness_thresh=args.thickness_thresh,
-                                            conf_thresh=np.linspace(0.1, 0.9, num=9).tolist(),
+                                            conf_thresh=config.TEST.CONF_THRESHOLD,
                                             fscore_beta=config.FSCORE_BETA)
 
     if model_eval.if_nodule_json:

@@ -53,7 +53,9 @@ if __name__ == '__main__':
     semantic_seg_eval = evaluator.BrainSemanticSegEvaluatorOffline(gt_dir=args.gt_dir,
                                                                    data_type=args.data_type,
                                                                    data_dir=args.data_dir,
-                                                                   img_dir=args.img_dir)
+                                                                   img_dir=args.img_dir,
+                                                                   conf_thresh=config.TEST.CONF_THRESHOLD,
+                                                                   fscore_beta=config.FSCORE_BETA)
 
     if args.draw:
         if args.multi_thresh:

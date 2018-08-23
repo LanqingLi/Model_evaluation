@@ -6,7 +6,7 @@
 
 objmatch: networkx <= 2.0
 
-model_eval: pandas >= 0.22.0, pandas != 0.23.0, opencv-python >= 3.3.0.10
+model_eval: pandas >= 0.22.0, pandas != 0.23.0, opencv-python >= 3.3.0.10，matplotlib<=2.1.1
 
 ## 超参数调整
 
