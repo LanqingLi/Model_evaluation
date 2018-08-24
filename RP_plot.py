@@ -26,7 +26,7 @@ if __name__ == '__main__':
     sheet_name = 'multi-class_evaluation'
     xmin = 0.
     xmax = 1.
-    cls_key = 'class'
+    cls_key = 'PatientID'
     args = parse_args()
     if args.json:
         RP_plot_json(json_save_dir=json_save_dir, json_name=json_name, sheet_name=sheet_name, xmin=xmin, xmax=xmax, cls_key=cls_key)
