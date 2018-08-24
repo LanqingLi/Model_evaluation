@@ -14,19 +14,19 @@ def parse_args():
 
 
 if __name__ == '__main__':
-    # xlsx_save_dir = '/mnt/data2/model_evaluation_dev/LungNoduleEvaluation_result/multi_class_evaluation_demo'
-    # xlsx_name = 'LungNoduleEvaluation.xlsx'
-    # json_save_dir = '/mnt/data2/model_evaluation_dev/LungNoduleEvaluation_result/multi_class_evaluation_demo'
-    # json_name = 'LungNoduleEvaluation_multi-class_evaluation.json'
-    # sheet_name = 'multi-class_evaluation'
-    xlsx_save_dir = '/mnt/data2/model_evaluation_dev/BrainSemanticSegEvaluation_result'
-    xlsx_name = 'BrainSemanticSegEvaluation.xlsx'
-    json_save_dir = '/mnt/data2/model_evaluation_dev/BrainSemanticSegEvaluation_result'
-    json_name = 'BrainSemanticSegEvaluation_multi-class_evaluation.json'
+    xlsx_save_dir = '/mnt/data2/model_evaluation/LungNoduleEvaluation_result/multi-class_test'
+    xlsx_name = 'LungNoduleEvaluation.xlsx'
+    json_save_dir = '/mnt/data2/model_evaluation/LungNoduleEvaluation_result/multi-class_test'
+    json_name = 'LungNoduleEvaluation_multi-class_evaluation.json'
     sheet_name = 'multi-class_evaluation'
+    # xlsx_save_dir = '/mnt/data2/model_evaluation_dev/BrainSemanticSegEvaluation_result'
+    # xlsx_name = 'BrainSemanticSegEvaluation.xlsx'
+    # json_save_dir = '/mnt/data2/model_evaluation_dev/BrainSemanticSegEvaluation_result'
+    # json_name = 'BrainSemanticSegEvaluation_multi-class_evaluation.json'
+    # sheet_name = 'multi-class_evaluation'
     xmin = 0.
     xmax = 1.
-    cls_key = 'PatientID'
+    cls_key = 'class'
     args = parse_args()
     if args.json:
         RP_plot_json(json_save_dir=json_save_dir, json_name=json_name, sheet_name=sheet_name, xmin=xmin, xmax=xmax, cls_key=cls_key)
