@@ -31,7 +31,7 @@ python RP_plot.py --json
 python RP_plot.py
 
 ```
-tip: 对于脑部分割任务，在RP_plot.py中设置cls_key='PatientID'可以生成像https://git.infervision.com/w/%E5%87%BA%E8%A1%80%E6%80%A7%E5%8D%92%E4%B8%AD/ 上以病人为单位统计的RP曲线
+tip: 对于脑部分割任务，在RP_plot.py中要设置cls_key='PatientID'，可以生成像https://git.infervision.com/w/%E5%87%BA%E8%A1%80%E6%80%A7%E5%8D%92%E4%B8%AD/ 上以病人为单位统计的RP曲线
 
 ### ROC 曲线
 在ROC_plot中定义读入文件的路径、文件名，支持.xlsx与.json

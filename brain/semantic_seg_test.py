@@ -50,18 +50,20 @@ def parse_args():
 
 if __name__ == '__main__':
     args = parse_args()
-    semantic_seg_eval = evaluator.BrainSemanticSegEvaluatorOffline(gt_dir=args.gt_dir,
+    semantic_seg_eval = evaluator.BrainSemanticSegEvaluatorOffline(cls_label_xls_path=config.CLASSES_LABELS_XLS_FILE_NAME,
+                                                                   gt_dir=args.gt_dir,
                                                                    data_type=args.data_type,
                                                                    data_dir=args.data_dir,
                                                                    img_dir=args.img_dir,
                                                                    conf_thresh=config.TEST.CONF_THRESHOLD,
-                                                                   fscore_beta=config.FSCORE_BETA)
+                                                                   fscore_beta=config.FSCORE_BETA,
+                                                                   thresh=config.THRESH)
 
     if args.draw:
         if args.multi_thresh:
             semantic_seg_eval.binary_class_contour_plot_multi_thresh()
         else:
-            semantic_seg_eval.binary_class_contour_plot_single_thresh(config.THRESH)
+            semantic_seg_eval.binary_class_contour_plot_single_thresh()
 
     elif args.multi_class:
         semantic_seg_eval.multi_class_evaluation()

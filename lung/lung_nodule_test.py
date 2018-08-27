@@ -69,7 +69,8 @@ def parse_args():
 if __name__ == '__main__':
     args = parse_args()
 
-    model_eval = evaluator.LungNoduleEvaluatorOffline(data_dir=args.data_dir,
+    model_eval = evaluator.LungNoduleEvaluatorOffline(cls_label_xls_path=config.CLASSES_LABELS_XLS_FILE_NAME,
+                                            data_dir=args.data_dir,
                                             data_type=args.data_type,
                                             anno_dir=args.gt_anno_dir,
                                             score_type=args.score_type,
