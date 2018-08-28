@@ -1,4 +1,4 @@
-from model_eval.tools.plot import RP_plot_xlsx, RP_plot_json
+from model_eval.tools.plot import RP_plot_xlsx, RP_plot_json, RP_plot_json_tot, RP_plot_xlsx_tot
 import argparse
 
 def parse_args():
@@ -8,6 +8,9 @@ def parse_args():
                         action='store_true')
     parser.add_argument('--AUC',
                         help='whether to calculate AUC of the curve',
+                        action='store_true')
+    parser.add_argument('--total',
+                        help='whether to draw RP for each patient or only total stat',
                         action='store_true')
     args = parser.parse_args()
     return args
@@ -28,7 +31,15 @@ if __name__ == '__main__':
     xmax = 1.
     cls_key = 'class'
     args = parse_args()
-    if args.json:
-        RP_plot_json(json_save_dir=json_save_dir, json_name=json_name, sheet_name=sheet_name, xmin=xmin, xmax=xmax, cls_key=cls_key)
+    if args.total:
+        if args.json:
+            RP_plot_json_tot(json_save_dir=json_save_dir, json_name=json_name, sheet_name=sheet_name, xmin=xmin, xmax=xmax,
+                         cls_key=cls_key)
+        else:
+            RP_plot_xlsx_tot(xlsx_save_dir=xlsx_save_dir, xlsx_name=xlsx_name, sheet_name=sheet_name, xmin=xmin, xmax=xmax,
+                         cls_key=cls_key)
     else:
-        RP_plot_xlsx(xlsx_save_dir=xlsx_save_dir, xlsx_name=xlsx_name, sheet_name=sheet_name, xmin=xmin, xmax=xmax, cls_key=cls_key)
+        if args.json:
+            RP_plot_json(json_save_dir=json_save_dir, json_name=json_name, sheet_name=sheet_name, xmin=xmin, xmax=xmax, cls_key=cls_key)
+        else:
+            RP_plot_xlsx(xlsx_save_dir=xlsx_save_dir, xlsx_name=xlsx_name, sheet_name=sheet_name, xmin=xmin, xmax=xmax, cls_key=cls_key)
