@@ -58,8 +58,7 @@ if __name__ == '__main__':
     find_nodules_eval = evaluator.FindNodulesEvaluator(cls_label_xls_path=config.CLASSES_LABELS_XLS_FILE_NAME,
                                                        gt_anno_dir=args.gt_anno_dir, if_nodule_cls=args.nodule_cls,
                                                        same_box_threshold_gt=config.FIND_NODULES.SAME_BOX_THRESHOLD_GT,
-                                                       score_threshold_gt=config.FIND_NODULES.SCORE_THRESHOLD_GT,
-                                                       z_threshold_gt=config.CLASS_Z_THRESHOLD_GT)
+                                                       score_threshold_gt=config.FIND_NODULES.SCORE_THRESHOLD_GT)
 
     if not args.clustering_test:
         # test nodule count, no nodule cls, all set to 'nodule' by default:

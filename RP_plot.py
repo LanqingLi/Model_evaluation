@@ -17,19 +17,19 @@ def parse_args():
 
 
 if __name__ == '__main__':
-    xlsx_save_dir = '/mnt/data2/model_evaluation/LungNoduleEvaluation_result'
-    xlsx_name = 'LungNoduleEvaluation.xlsx'
-    json_save_dir = '/mnt/data2/model_evaluation/LungNoduleEvaluation_result'
-    json_name = 'LungNoduleEvaluation_multi-class_evaluation.json'
-    sheet_name = 'binary-class_evaluation'
-    # xlsx_save_dir = '/mnt/data2/model_evaluation_dev/BrainSemanticSegEvaluation_result'
-    # xlsx_name = 'BrainSemanticSegEvaluation.xlsx'
-    # json_save_dir = '/mnt/data2/model_evaluation_dev/BrainSemanticSegEvaluation_result'
-    # json_name = 'BrainSemanticSegEvaluation_multi-class_evaluation.json'
-    # sheet_name = 'multi-class_evaluation'
+    # xlsx_save_dir = '/mnt/data2/model_evaluation/LungNoduleEvaluation_result'
+    # xlsx_name = 'LungNoduleEvaluation.xlsx'
+    # json_save_dir = '/mnt/data2/model_evaluation/LungNoduleEvaluation_result'
+    # json_name = 'LungNoduleEvaluation_multi-class_evaluation.json'
+    # sheet_name = 'binary-class_evaluation'
+    xlsx_save_dir = '/mnt/data2/model_evaluation_dev/BrainSemanticSegEvaluation_result'
+    xlsx_name = 'BrainSemanticSegEvaluation.xlsx'
+    json_save_dir = '/mnt/data2/model_evaluation_dev/BrainSemanticSegEvaluation_result'
+    json_name = 'BrainSemanticSegEvaluation_multi-class_evaluation.json'
+    sheet_name = 'multi-class_evaluation'
     xmin = 0.
     xmax = 1.
-    cls_key = 'class'
+    cls_key = 'PatientID'
     args = parse_args()
     if args.total:
         if args.json:
