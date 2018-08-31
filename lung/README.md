@@ -38,17 +38,17 @@
 
  - ground truth annotation (存放在gt_anno_dir中的人工标记xml文件, 且每个.xml文件中的<filename>属性必须与其文件名完全一致)：
  
-    ```
+  ```
     gt_anno_dir/
     ├── patient_id_1/
     |   ├─────────── patient_id_1_xxx.xml
     |   ├─────────── patient_id_1_xxx.xml
     ├── patient_id_2/
     ├── patient_id_3/
-    ``` 
+  ``` 
  - predict json (存放在data_dir中的模型输出的后缀为_predict.json/_predict.npy文件，以json为例)：
     
-    ```
+  ```
     data_dir/
     ├── patient_id_1/
     |   ├─────────── patient_id_1_predict.json
@@ -56,7 +56,7 @@
     |   ├─────────── patient_id_2_predict.json
     ├── patient_id_3/
     |   ├─────────── patient_id_3_predict.json
-    ``` 
+  ``` 
  json格式：至少需要包含以下关键词：｛'Mask', 'instanceNumber'(结节层面数，从１算起),'nodule_class', 'prob'（softmax置信度概率），
  'sliceId'(结节层面数，从0算起), 'xmax', 'xmin', 'ymax', 'ymin'} 
 
