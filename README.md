@@ -1,6 +1,6 @@
 # 模型组评分系统说明
 
-目前最新的0.1.5版本涵盖了肺部、脑部两个模块，并重构了common.custom_metric中的ClassificationMetric,将多分类指标
+目前最新的0.1.6版本涵盖了肺部、脑部两个模块，并重构了common.custom_metric中的ClassificationMetric,将多分类指标
 按类别存成list列表，并兼容了泛化后的objmatch 0.0.2版本；同时对于脑部模块加入online预测的功能，传入迭代器从而避免一次性读取全部数据
 占用大量内存的问题，另外加入了一些新的画图功能和统计指标例如dice(2*tp/(2*tp+fp+fn))、phys_vol_diff/mm^3(gt与pred统计的
 分割区域物理体积的差值)；0.1.5在0.1.4基础上重构了每个模块的config文件，将所有的配置参数写成了python的类，当传入具有分类信息的.xls文件路径时
