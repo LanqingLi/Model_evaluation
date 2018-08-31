@@ -66,4 +66,28 @@ python ROC_plot.py --json
 python ROC_plot.py
 ```
 
+## 运行示例(examples):
 
+目前0.1.6版本加入了脑部模块OnlineIter模式的运行示例，方便用户理解代码的实际使用方法，具体操作为：
+
+核心代码路径：examples/brain/OnlineIter,以下说明均以此为根目录
+
+定义预测模型路径：config.py中config.model_dir
+
+定义预测模型名称：config.py中config.validating.model_name
+
+定义测试数据路径：config.py中config.validating.valid_dir
+
+默认模型路径：examples/model
+
+默认测试数据路径：examples/data/test_data1
+
+模型/测试数据地址：NAS上/volume2/DATA_TMP_VOL2/Lilanqing/model_eval_test_data/brain, 或联系 @llanqing @cweidao 获取
+
+上述参数设置完备后，一键运行eval_lanqing.py即可运行生成BrainSemanticSegEvaluation_contour，BrainSemanticSegEvaluation_mask(if_save_mask=True),
+BrainSemanticSegEvaluation_result三个文件夹的结果
+
+##　注意事项
+
+- 在测试过程中，发现较新的matplotlib(2.2.0)在画图时不允许出现x坐标相同的两个不同点，而目前开发的版本的tools.plot中为了画阶跃的ROC、RP曲线
+是会出现这种情况的，故要求matplotlib版本<=2.1.1

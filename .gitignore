@@ -2,5 +2,6 @@
 data/
 **/*_result
 **/*_contour
+**/*_mask
 .idea/
 .xls
