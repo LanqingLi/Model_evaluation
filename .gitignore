@@ -5,3 +5,7 @@ data/
 **/*_mask
 .idea/
 .xls
+**/*.egg-info
+build/
+dist/
+
