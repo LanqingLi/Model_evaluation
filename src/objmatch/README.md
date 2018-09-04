@@ -40,7 +40,7 @@ find_nodules/find_objects为v0.0.2 objmatch的核心算法，定义在objmatch.f
                      其中'Nodule Id'对于find_objects应替换为'Object Id'
  """
 
-####　设计思路
+#### 设计思路
 该算法是基于韦人医生初版的find_nodules改进后的版本。原先的设计中，定义了等价类的树状数据结构（嵌入并查集unionFindSet中实现）。即在同一层面内，
 dice（similarity metric）大于一定阈值的两个框会归为同一颗等价类的树, 最终进行层面间结节匹配时只保留整个等价类的根节点(随机选取)，
 并且评判标准中没有考虑框的类别以及概率。本算法设计的初衷是为了解决原算法的如下问题：

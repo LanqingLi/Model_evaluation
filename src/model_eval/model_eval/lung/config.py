@@ -149,7 +149,7 @@ class LungConfig(object):
                                      + np.linspace(0.99, 0.9975, num=4).tolist() + np.linspace(0.999, 0.99975,
                                                                                                num=4).tolist()
         # same-box IOU threshold, used in post_process
-        self.TEST.IOU_THRESHOLD = 0.5
+        self.TEST.OBJECT_COMPARE_THRESHOLD = np.array([1.6, 1.6])
 
         ###########################
         # CONFIG FOR CLASSIFICATION

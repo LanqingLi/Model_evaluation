@@ -106,7 +106,7 @@ class LungNoduleEvaluatorOffline(object):
         self.if_nodule_threshold = if_nodule_threshold
 
         self.thickness_thresh = thickness_thresh
-        self.nodule_compare_thresh = self.config.TEST.IOU_THRESHOLD
+        self.nodule_compare_thresh = self.config.TEST.OBJECT_COMPARE_THRESHOLD
 
         # keep track of the nodule count in the output of get_df_nodules, including false positives, initialized to be 0
         self.nodule_count = 0.

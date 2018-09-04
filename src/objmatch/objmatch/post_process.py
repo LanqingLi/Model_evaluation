@@ -148,15 +148,27 @@ def object_compare(predict_slices, ground_truth_slices, predict_bboxs, ground_tr
         predict_index = predict_slices.index(slice)
         ground_truth_index = ground_truth_slices.index(slice)
         # score = find_objects.calcDICE(predict_bboxs[predict_index], ground_truth_bboxs[ground_truth_index])
-        if_same_bbox = cal_same_bbox(np.asarray([ground_truth_bboxs[ground_truth_index]]), np.asarray([predict_bboxs[predict_index]]), thresh=thresh, dim=dim)
+        if_same_bbox = cal_same_bbox_cdi(np.asarray([ground_truth_bboxs[ground_truth_index]]), np.asarray([predict_bboxs[predict_index]]), thresh=thresh, dim=dim)
         # 只要有一对满足标准，就算对
         ret_if_same_bbox = ret_if_same_bbox or if_same_bbox
         if ret_if_same_bbox:
             break
     return ret_if_same_bbox
 
-
-def cal_same_bbox(bbox_gt, bbox_pt, thresh, dim):
+def cal_same_bbox_iou(bbox_gt, bbox_pt, thresh, dim):
     anchor_metric = AnchorMetric(dim=dim)
     return anchor_metric.iou(bbox_gt, bbox_pt) > thresh
+
+def cal_same_bbox_cdi(bbox_gt, bbox_pt, thresh, dim):
+    """
+    determine whether two bounding boxes are the same according to AnchorMetric.center_deviation_iou metric
+
+    :param bbox_gt:
+    :param bbox_pt:
+    :param thresh:
+    :param dim:
+    :return:
+    """
+    anchor_metric = AnchorMetric(dim=dim)
+    return np.all(anchor_metric.center_deviation_iou(bbox_gt, bbox_pt) < thresh)
 

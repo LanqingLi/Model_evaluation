@@ -43,9 +43,9 @@ config.RCNN_FEAT_STRIDE = [4, 8, 16, 32]
 # CONFIG FOR CLASSIFICATION
 ###########################
 
-config.CLASSES_LABELS_XLS_FILE_NAME = 'lung/classname_labelname_mapping.xls'
-config.CLASSES, config.NODULE_CLASSES, config.CLASS_DICT, config.CONF_THRESH, config.CLASS_WEIGHTS, config.CLASS_Z_THRESHOLD_PRED,\
-    config.CLASS_Z_THRESHOLD_GT= get_label_classes_from_xls(config.CLASSES_LABELS_XLS_FILE_NAME)
+config.CLASSES_LABELS_XLS_FILE_NAME = 'lung/classname_labelname_mapping_new.xls'
+self.CLASSES, self.NODULE_CLASSES, self.CLASS_DICT, self.CONF_THRESH, self.CLASS_WEIGHTS, self.GT_CLASSES_WEIGHTS, \
+        self.CLASS_Z_THRESHOLD_PRED, self.CLASS_Z_THRESHOLD_GT, self.GT_CLASS_Z_THRESHOLD_GT= get_label_classes_from_xls(config.CLASSES_LABELS_XLS_FILE_NAME)
 config.NUM_CLASSES = len(config.CLASSES)
 
 #########################
@@ -106,13 +106,13 @@ config.TEST.PROPOSAL_MIN_SIZE = config.RPN_FEAT_STRIDE
 config.TEST.NMS = 0.01
 
 # same-box IOU threshold, used in post_process
-config.TEST.IOU_THRESHOLD = 0.5
+config.TEST.OBJECT_COMPARE_THRESHOLD = np.array([1.6, 1.6])
 
 # customized softmax threshold for model evaluator
 # config.TEST.CONF_THRESHOLD = np.linspace(0.1, 0.85, num=16).tolist() + np.linspace(0.9, 0.975, num=4).tolist()\
 #                            + np.linspace(0.99, 0.9975, num=4).tolist() + np.linspace(0.999, 0.99975, num=4).tolist()
 
-config.TEST.CONF_THRESHOLD = np.linspace(0.1, 0.9, num=9).tolist()
+config.TEST.CONF_THRESHOLD = np.linspace(0.6, 0.9, num=4).tolist()
 #########################
 # CONFIG FOR FIND_NODULES
 #########################
