@@ -86,3 +86,27 @@ def save_xlsx_json_three_sheets(result_df, gt_cls_df, opt_thresh, result_save_di
               "w") as fp:
         js_opt_thresh = json.loads(json_opt_thresh, "utf-8")
         json.dump(js_opt_thresh, fp)
+
+def save_xlsx_sheets(summary_count_df,result_save_dir,xlsx_name,json_name):
+    if not os.path.exists(result_save_dir):
+        os.makedirs(result_save_dir)
+    print ("saving %s" % os.path.join(result_save_dir, xlsx_name))
+
+    # 　如果已存在相同名字的.xlsx文件，默认删除该文件并重新生成同名的新文件
+    if os.path.isfile(os.path.join(result_save_dir, xlsx_name)):
+        os.remove(os.path.join(result_save_dir, xlsx_name))
+
+    writer = pd.ExcelWriter(os.path.join(result_save_dir, xlsx_name))
+    for thresh,summary_df in summary_count_df.items():
+        summary_df.to_excel(writer,'summary_count_df'+'_%02d'%(int(100*thresh)),index=False)
+
+    writer.save()
+
+    for thresh,summary_df in summary_count_df.items():
+        if os.path.isfile(os.path.join(result_save_dir, json_name + '_' +'summary_count_df'+'_%02d'%(int(100*thresh))+ '.json')):
+            os.remove(os.path.join(result_save_dir, json_name + '_' + 'summary_count_df'+'_%02d'%(int(100*thresh)) + '.json'))
+        with open(os.path.join(result_save_dir,json_name+'_'+'summary_count_df'+'_%02d'%(int(100*thresh))+'.json'),'w') as fp:
+            summary_df_cp=summary_df.T.to_json()
+            js=json.loads(summary_df_cp,'utf-8')
+            json.dump(js,fp)
+
