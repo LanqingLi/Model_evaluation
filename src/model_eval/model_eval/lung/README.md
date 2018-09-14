@@ -219,6 +219,9 @@ GGN等类别。如果要强行读入，则必须强制config.NODULE_CLASSSES和c
 score_threshold_gt=config.FIND_NODULES.SCORE_THRESHOLD_PRED, z_threshold_gt=config.CLASS_Z_THRESHOLD_PRED。并且要注意的是，
 predict_labels测试，最终经过find_nodules输出的label中，没有匹配上的框均为-1,ClusteringMetric会出现问题，所以不建议这样做。
 
+-　对于binary_class_evaluation_nodule_threshold模式，为了速度的优化必须对多阈值只过了一遍get_object_stat，所以必须保证self.conf_thresh的初始值不高于模型输出
+时的阈值，否则统计出来的tp+fn会少
+
 
 
 

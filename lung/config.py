@@ -112,7 +112,7 @@ config.TEST.OBJECT_COMPARE_THRESHOLD = np.array([1.6, 1.6])
 # config.TEST.CONF_THRESHOLD = np.linspace(0.1, 0.85, num=16).tolist() + np.linspace(0.9, 0.975, num=4).tolist()\
 #                            + np.linspace(0.99, 0.9975, num=4).tolist() + np.linspace(0.999, 0.99975, num=4).tolist()
 
-config.TEST.CONF_THRESHOLD = np.linspace(0.6, 0.9, num=4).tolist()
+config.TEST.CONF_THRESHOLD = np.linspace(0.6, 0.9, num=2).tolist()
 #########################
 # CONFIG FOR FIND_NODULES
 #########################
@@ -136,6 +136,21 @@ config.FIND_NODULES.SCORE_THRESHOLD_GT = 0.4
 # # 对于逐层匹配的贪心算法，我们每次只找前z_threshold个层面，对于ground truth一般应设置为1-2, 假设医生不标断层结节，则应该设置成１
 # config.FIND_NODULES.Z_THRESHOLD_PRED = 3.
 # config.FIND_NODULES.Z_THRESHOLD_GT = 3.
+
+##########################
+# CONFIG FOR OBJECT
+##########################
+
+config.ANCHOR = edict()
+
+config.ANCHOR.CLASS_KEY = 'name'
+config.ANCHOR.BNDBOX_KEY = 'bndbox'
+config.ANCHOR.ADD_KW = ['prob']
+config.ANCHOR.ADD_VALUE = [1.]
+config.ANCHOR.KEY_LIST = ['name', 'Diameter', 'CT_value']
+config.ANCHOR.BNDBOX_KEY_LIST = ['xmin', 'ymin', 'xmax', 'ymax']
+config.ANCHOR.ALL_KEY_LIST = config.ANCHOR.BNDBOX_KEY_LIST + config.ANCHOR.ADD_KW + config.ANCHOR.KEY_LIST + ['sliceId']
+config.ANCHOR.MATCHED_KEY_LIST = ['Bndbox List', 'Object Id', 'Pid', 'Type', 'SliceRange', 'Prob', 'Diameter', 'CT_value']
 
 #######################
 

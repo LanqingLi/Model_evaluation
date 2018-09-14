@@ -1,3 +1,4 @@
+import sys
 import model_eval.lung.evaluator as evaluator
 import argparse
 import numpy as np
@@ -69,19 +70,36 @@ def parse_args():
 if __name__ == '__main__':
     args = parse_args()
 
+    # model_eval = evaluator.LungNoduleAnchorEvaluatorOffline(cls_label_xls_path=config.CLASSES_LABELS_XLS_FILE_NAME,
+    #                                         data_dir=args.data_dir,
+    #                                         data_type=args.data_type,
+    #                                         anno_dir=args.gt_anno_dir,
+    #                                         score_type=args.score_type,
+    #                                         result_save_dir=args.result_save_dir,
+    #                                         xlsx_name=args.xlsx_name,
+    #                                         json_name=args.json_name,
+    #                                         if_nodule_threshold=args.nodule_threshold,
+    #                                         if_nodule_json=args.nodule_json,
+    #                                         thickness_thresh=args.thickness_thresh,
+    #                                         conf_thresh=config.TEST.CONF_THRESHOLD,
+    #                                         fscore_beta=config.FSCORE_BETA,
+    #                                         key_list=config.ANCHOR.ALL_KEY_LIST,
+    #                                         class_key=config.ANCHOR.CLASS_KEY,
+    #                                         matched_key_list=config.ANCHOR.MATCHED_KEY_LIST)
+
     model_eval = evaluator.LungNoduleEvaluatorOffline(cls_label_xls_path=config.CLASSES_LABELS_XLS_FILE_NAME,
-                                            data_dir=args.data_dir,
-                                            data_type=args.data_type,
-                                            anno_dir=args.gt_anno_dir,
-                                            score_type=args.score_type,
-                                            result_save_dir=args.result_save_dir,
-                                            xlsx_name=args.xlsx_name,
-                                            json_name=args.json_name,
-                                            if_nodule_threshold=args.nodule_threshold,
-                                            if_nodule_json=args.nodule_json,
-                                            thickness_thresh=args.thickness_thresh,
-                                            conf_thresh=config.TEST.CONF_THRESHOLD,
-                                            fscore_beta=config.FSCORE_BETA)
+                                                      data_dir=args.data_dir,
+                                                      data_type=args.data_type,
+                                                      anno_dir=args.gt_anno_dir,
+                                                      score_type=args.score_type,
+                                                      result_save_dir=args.result_save_dir,
+                                                      xlsx_name=args.xlsx_name,
+                                                      json_name=args.json_name,
+                                                      if_nodule_threshold=args.nodule_threshold,
+                                                      if_nodule_json=args.nodule_json,
+                                                      thickness_thresh=args.thickness_thresh,
+                                                      conf_thresh=config.TEST.CONF_THRESHOLD,
+                                                      fscore_beta=config.FSCORE_BETA)
 
     if model_eval.if_nodule_json:
         model_eval.generate_df_nodules_to_json()
