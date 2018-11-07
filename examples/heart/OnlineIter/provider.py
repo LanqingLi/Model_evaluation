@@ -28,6 +28,8 @@ class Predict(object):
         self.data_name = data_name
         self.model_dir = model_dir
         self.label_name = label_name
+        self.seqlen = config.seqlen
+        self.img_shape = config.img_shape
         self.set_mod()
 
     def set_mod(self):
@@ -42,7 +44,7 @@ class Predict(object):
         print 'get mod', self.model_prefix, ' epoch ', self.epoch
         # symbol=get_symbol_valid()
         self.mod = mx.mod.Module(symbol=symbol, context=self.ctx, label_names=None)
-        self.mod.bind(data_shapes=[('data', (len(self.ctx), 3, 512, 512))],for_training=False)
+        self.mod.bind(data_shapes=[('data', (len(self.ctx), self.seqlen, self.img_shape[0], self.img_shape[1]))],for_training=False)
         self.mod.set_params(args, auxs, allow_missing=True)
 
     def predict(self, ct_sequence):

@@ -87,7 +87,7 @@ if __name__ == '__main__':
     #                                         class_key=config.ANCHOR.CLASS_KEY,
     #                                         matched_key_list=config.ANCHOR.MATCHED_KEY_LIST)
 
-    model_eval = evaluator.LungNoduleEvaluatorOffline(cls_label_xls_path=config.CLASSES_LABELS_XLS_FILE_NAME,
+    model_eval = evaluator.LungNoduleAnchorEvaluatorOffline(cls_label_xls_path=config.CLASSES_LABELS_XLS_FILE_NAME,
                                                       data_dir=args.data_dir,
                                                       data_type=args.data_type,
                                                       anno_dir=args.gt_anno_dir,
@@ -99,7 +99,15 @@ if __name__ == '__main__':
                                                       if_nodule_json=args.nodule_json,
                                                       thickness_thresh=args.thickness_thresh,
                                                       conf_thresh=config.TEST.CONF_THRESHOLD,
-                                                      fscore_beta=config.FSCORE_BETA)
+                                                      fscore_beta=config.FSCORE_BETA,
+                                                      if_ensemble=config.IF_ENSEMBLE,
+                                                      model_weight_list=config.MODEL_WEIGHT_LIST,
+                                                      model_conf_list=config.MODEL_CONF_LIST,
+                                                      key_list=config.ANCHOR.ALL_KEY_LIST,
+                                                      class_key=config.ANCHOR.CLASS_KEY,
+                                                      matched_key_list=config.ANCHOR.MATCHED_KEY_LIST,
+                                                      obj_freq_thresh=config.OBJ_FREQ_THRESH
+                                                      )
 
     if model_eval.if_nodule_json:
         model_eval.generate_df_nodules_to_json()

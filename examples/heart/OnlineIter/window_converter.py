@@ -10,6 +10,16 @@ def window_convert( pix, center, width):
     pix_out[np.where(pix >= hig)] = 255
     return pix_out
 
+
+def window_convert_light(pix, center, width):
+    low = center - width / 2.
+    hig = center + width / 2.
+    pix = ((pix - center + 0.5) / (width - 1) + 0.5) * 255
+    pix[pix < 0] = 0
+    pix[pix > 255] = 255
+    pix = pix.astype('uint8')
+    return pix
+
 def window_convert_1( pix, center, width):
     low = center - width / 2
     hig = center + width / 2

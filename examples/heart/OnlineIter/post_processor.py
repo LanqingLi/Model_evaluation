@@ -5,7 +5,8 @@ import sys
 
 sys.path.append("..")
 
-def get_calcium_mask(img_array, binary_map, calcium_thresh):
+def get_calcium_mask(img_array, binary_map, calcium_thresh=130):
+    #print 'img_array.shape={}, binary_map_shape={}'.format(img_array.shape, binary_map.shape)
     assert img_array.shape == binary_map.shape, 'image array and binary map must have the same shape'
     assert np.prod(binary_map.shape) == np.count_nonzero(binary_map == 0) + np.count_nonzero(binary_map == 1), \
         'binary map must only contain 0 or 1'

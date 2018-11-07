@@ -43,7 +43,7 @@ config.RCNN_FEAT_STRIDE = [4, 8, 16, 32]
 # CONFIG FOR CLASSIFICATION
 ###########################
 
-config.CLASSES_LABELS_XLS_FILE_NAME = 'lung/classname_labelname_mapping.xls'
+config.CLASSES_LABELS_XLS_FILE_NAME = 'lung/classname_labelname_mapping_pjianwei.xls'
 config.CLASSES, config.NODULE_CLASSES, config.CLASS_DICT, config.CONF_THRESH, config.CLASS_WEIGHTS, config.GT_CLASSES_WEIGHTS, \
         config.CLASS_Z_THRESHOLD_PRED, config.CLASS_Z_THRESHOLD_GT, config.GT_CLASS_Z_THRESHOLD_GT= get_label_classes_from_xls(config.CLASSES_LABELS_XLS_FILE_NAME)
 config.NUM_CLASSES = len(config.CLASSES)
@@ -112,7 +112,7 @@ config.TEST.OBJECT_COMPARE_THRESHOLD = np.array([1.6, 1.6])
 # config.TEST.CONF_THRESHOLD = np.linspace(0.1, 0.85, num=16).tolist() + np.linspace(0.9, 0.975, num=4).tolist()\
 #                            + np.linspace(0.99, 0.9975, num=4).tolist() + np.linspace(0.999, 0.99975, num=4).tolist()
 
-config.TEST.CONF_THRESHOLD = np.linspace(0.6, 0.9, num=2).tolist()
+config.TEST.CONF_THRESHOLD = np.linspace(0.2, 0.9, num=1).tolist()
 #########################
 # CONFIG FOR FIND_NODULES
 #########################
@@ -156,3 +156,15 @@ config.ANCHOR.MATCHED_KEY_LIST = ['Bndbox List', 'Object Id', 'Pid', 'Type', 'Sl
 
 config.THICKNESS_THRESHOLD = 0
 config.FSCORE_BETA = 1.0
+
+#######################
+
+config.MODEL_WEIGHT_LIST = [0.433, 0.440, 0.646, 0.504, 0.545, 0.556, 0.564]
+config.MODEL_CONF_LIST = [0.433, 0.440, 0.646, 0.504, 0.545, 0.556, 0.564]
+#config.MODEL_WEIGHT_LIST = [1., 1., 1., 1., 2., 2., 2.]
+#config.MODEL_CONF_LIST = [1., 1., 1., 1., 1., 1., 1.]
+config.MODEL_LIST = ['addcc300_9c_6class_1205-0016', 'add_dz_pretrain_dicom_9c_5class-0022', 'fpv3_ssd',
+                     'ggn_review_test_9c_5class_0224-0018', 'hard0.3_6class_9c_pleural_lf-0020', 'lanf_9c_6class_pleural-0018',
+                     'ssd-0020']
+config.OBJ_FREQ_THRESH = 4.
+config.IF_ENSEMBLE = True

@@ -1,3 +1,4 @@
+# --coding:utf-8--
 from easydict import EasyDict as edict
 import os
 import numpy as np
@@ -25,12 +26,19 @@ config.model_dir = '/mnt/data2/model_evaluation/examples/model'
 
 config.validating = edict()
 config.validating.batch_size = 4
-config.validating.model_name = 'deep_dense_changzheng12+WHTJ_bstrap_homebrew'
-config.validating.epoch = 45
-config.validating.valid_dir='/media/tx-eva-cc/data/cardiac_calcified/anno/valid_data'
+config.validating.model_name = 'deep_dense_changzheng12+WHTJ+DLZS_bstrap50_atrous_randcrop_new_seqlen3'
+config.validating.epoch = 42
+config.validating.valid_dir= '/media/tx-eva-cc/data/cardiac_calcified/anno/test_data'
 config.validating.valid_person = os.listdir(config.validating.valid_dir)
 
 config.img_shape = (512, 512)
 
 config.window_width = 750
 config.window_center = 90
+
+# config.min_crop_shape = [256, 256]
+# config.tgt_crop_shape = [256, 256]
+# config.fix_crop_shape = False
+# config.crop_dof = 1
+
+config.seqlen = 3
