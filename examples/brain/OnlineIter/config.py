@@ -25,7 +25,7 @@ config.model_dir = '/mnt/data2/model_evaluation/examples/model'
 
 config.validating = edict()
 config.validating.batch_size = 2
-config.validating.model_name = 'deep_dense_0209'
-config.validating.epoch = 26
+config.validating.model_name = 'deep_dense_changzheng12+WHTJ+DLZS_bstrap_atrous_randcrop_new_seqlen9'
+config.validating.epoch = 111
 config.validating.valid_dir='/mnt/data2/model_evaluation/examples/data/test_data1'
 config.validating.valid_person = os.listdir(config.validating.valid_dir)

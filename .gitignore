@@ -93,4 +93,6 @@ dist/
 **/*.json
 model/
 **/*.jpg
+**/*.xls#
+**/*.ipynb
 

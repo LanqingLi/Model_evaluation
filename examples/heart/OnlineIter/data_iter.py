@@ -81,7 +81,7 @@ class FileIter(DataIter):
         self.window_width = config.window_width
         self.seqlen = config.seqlen
         #self.if_crop = if_crop
-        self.data, self.label, _, self.voxel_vol = self._read()
+        self.data, self.label, _, self.voxel_vol, self.pixel_area = self._read()
 
     def get_training_path(self):
         '''
@@ -122,8 +122,8 @@ class FileIter(DataIter):
     def _read(self):
         sid_path = self.pids[self.cursor]
         self.sid = sid_path
-        data, label, raw, voxel_vol = self._read_sid(sid_path)
-        return data, label, raw, voxel_vol
+        data, label, raw, voxel_vol, pixel_area = self._read_sid(sid_path)
+        return data, label, raw, voxel_vol, pixel_area
 
     def label_convert(self, lbl):
         nlbl = np.array(lbl > 0, dtype=np.int16)
@@ -150,19 +150,24 @@ class FileIter(DataIter):
             raws = imgs.transpose(2, 0, 1)  # N*512*512
             lbls = t_lbl[0]
 
-            # calculate physical volume using space directions info stored in .nrrd
+            # calculate physical volume and area using space directions info stored in .nrrd
             space_matrix = np.zeros((3, 3))
+            slice_matrix = np.zeros((2, 2))
             space_matrix[0] = np.asarray(t_lbl[1]['space directions'][0]).astype('float32')
             space_matrix[1] = np.asarray(t_lbl[1]['space directions'][1]).astype('float32')
             space_matrix[2] = np.asarray(t_lbl[1]['space directions'][2]).astype('float32')
-            # calculate voxel volume as the determinant of spacing matrix
+            slice_matrix[0] = np.asarray(t_lbl[1]['space directions'][0][:2]).astype('float32')
+            slice_matrix[1] = np.asarray(t_lbl[1]['space directions'][1][:2]).astype('float32')
+            # calculate voxel volume as the determinant of the space matrix, pixel area as the det of the slice matrix
+            pixel_area = np.linalg.det(slice_matrix)
             voxel_vol = np.linalg.det(space_matrix)
-            print voxel_vol
+            print 'pixel_area: {}'.format(pixel_area)
+            print 'voxel_vol: {}'.format(voxel_vol)
             del t
             del t_lbl
         except Exception as e:
             print e
-            return None, None, None, None
+            return None, None, None, None, None
 
         # lbls = self.label_convert_brainRegion(lbls)  # 512 512 N
         assert imgs.shape[-1] > 2
@@ -179,6 +184,7 @@ class FileIter(DataIter):
             imgs = new_imgs.astype('int16')
             raws = imgs.transpose(2, 0, 1)  # N*512*512
             voxel_vol = voxel_vol / (fx * fy)
+            pixel_area = pixel_area / (fx * fy)
         if np.shape(lbls)[0:2] != (self.img_shape[0], self.img_shape[1]):
             fx = float(self.img_shape[0]) / float(np.shape(lbls)[0])
             fy = float(self.img_shape[1]) / float(np.shape(lbls)[1])
@@ -411,7 +417,7 @@ class FileIter(DataIter):
         imgs = window_convert_light(imgs, self.window_center, self.window_width)
         print 'img_shape = ', imgs.shape
         print 'label_shape= ', lbls.shape
-        return imgs, lbls, raws, voxel_vol
+        return imgs, lbls, raws, voxel_vol, pixel_area
 
     @property
     def provide_data(self):
@@ -440,13 +446,14 @@ class FileIter(DataIter):
     def next(self):
         """return one dict which contains "data" and "label" """
         if self.iter_next():
-            self.data, self.label, raw, self.voxel_vol = self._read()
+            self.data, self.label, raw, self.voxel_vol, self.pixel_area = self._read()
             # print '%%%%%%%%%%%%%%%%', type(self.data),np.shape(self.data)
             return {self.data_name: self.data,
                     self.label_name: self.label,
                     'pid': self.pids[self.cursor].split('/')[-1],
                     'raw': raw,
-                    'voxel_vol': self.voxel_vol
+                    'voxel_vol': self.voxel_vol,
+                    'pixel_area': self.pixel_area
                     }
         else:
             return None

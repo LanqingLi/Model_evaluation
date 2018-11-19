@@ -65,6 +65,7 @@ heart_eval = HeartSemanticSegEvaluatorOnlineIter(cls_label_xls_path=cls_label_xl
                                                  img_key='raw',
                                                  patient_key='pid',
 						                         voxel_vol_key='voxel_vol',
+                                                 pixel_area_key = 'pixel_area',
                                                  conf_thresh=np.linspace(0.1, 0.9, num=3).tolist(),
                                                  if_save_mask=False,
                                                  post_processor=get_calcium_mask,
@@ -80,24 +81,25 @@ heart_eval.binary_class_contour_plot_single_thresh()
 
 # 画多阈值contour
 heart_eval.binary_class_contour_plot_multi_thresh()
-#
-#二分类统计指标
-heart_eval = HeartSemanticSegEvaluatorOnlineIter(cls_label_xls_path=cls_label_xls_path,
-                                                 data_iter=eval_data,
-                                                 predictor=predictor.predict,
-                                                 predict_key='data',
-                                                 gt_key='softmax_label',
-                                                 img_key='raw',
-                                                 patient_key='pid',
-						                         voxel_vol_key = 'voxel_vol',
-                                                 xlsx_name='binary_class_evaluation.xlsx',
-                                                 json_name='binary_class_evaluation',
-                                                 conf_thresh=np.linspace(0.1, 0.9, num=3).tolist(),
-                                                 if_save_mask=False,
-                                                 if_post_process=True,
-                                                 post_processor=get_calcium_mask
-                                                 )
-heart_eval.binary_class_evaluation_light()
+
+# 二分类统计指标
+# heart_eval = HeartSemanticSegEvaluatorOnlineIter(cls_label_xls_path=cls_label_xls_path,
+#                                                  data_iter=eval_data,
+#                                                  predictor=predictor.predict,
+#                                                  predict_key='data',
+#                                                  gt_key='softmax_label',
+#                                                  img_key='raw',
+#                                                  patient_key='pid',
+# 						                         voxel_vol_key = 'voxel_vol',
+#                                                  pixel_area_key = 'pixel_area',
+#                                                  xlsx_name='binary_class_evaluation.xlsx',
+#                                                  json_name='binary_class_evaluation',
+#                                                  conf_thresh=np.linspace(0.1, 0.9, num=9).tolist(),
+#                                                  if_save_mask=False,
+#                                                  if_post_process=True,
+#                                                  post_processor=get_calcium_mask
+#                                                  )
+# heart_eval.binary_class_evaluation_light()
 #
 #多分类统计指标
 heart_eval = HeartSemanticSegEvaluatorOnlineIter(cls_label_xls_path=cls_label_xls_path,
@@ -108,9 +110,10 @@ heart_eval = HeartSemanticSegEvaluatorOnlineIter(cls_label_xls_path=cls_label_xl
                                                  img_key='raw',
                                                  patient_key='pid',
  						                         voxel_vol_key = 'voxel_vol',
+                                                 pixel_area_key = 'pixel_area',
                                                  xlsx_name='multi_class_evaluation.xlsx',
                                                  json_name='multi_class_evaluation',
-                                                 conf_thresh=[0.1, 0.9],
+                                                 conf_thresh=np.linspace(0.1, 0.9, num=9).tolist(),
                                                  if_save_mask=False,
                                                  if_post_process=True,
                                                  post_processor=get_calcium_mask
