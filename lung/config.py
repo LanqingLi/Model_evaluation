@@ -159,13 +159,13 @@ config.FSCORE_BETA = 1.0
 
 #######################
 
-config.MODEL_WEIGHT_LIST = [0.433, 0.440, 0.646, 0.504, 0.545, 0.556, 0.564]
-config.MODEL_CONF_LIST = [0.433, 0.440, 0.646, 0.504, 0.545, 0.556, 0.564]
-#config.MODEL_WEIGHT_LIST = [1., 1., 1., 1., 2., 2., 2.]
-#config.MODEL_CONF_LIST = [1., 1., 1., 1., 1., 1., 1.]
+# config.MODEL_WEIGHT_LIST = [0.433, 0.440, 0.646, 0.504, 0.545, 0.556, 0.564]
+# config.MODEL_CONF_LIST = [0.433, 0.440, 0.646, 0.504, 0.545, 0.556, 0.564]
+config.MODEL_WEIGHT_LIST = [1., 1., 3., 1., 1., 1., 3.]
+config.MODEL_CONF_LIST = [1., 1., 3., 1., 1., 1., 3.]
 config.MODEL_LIST = ['addcc300_9c_6class_1205-0016', 'add_dz_pretrain_dicom_9c_5class-0022', 'fpv3_ssd',
                      'ggn_review_test_9c_5class_0224-0018', 'hard0.3_6class_9c_pleural_lf-0020', 'lanf_9c_6class_pleural-0018',
                      'ssd-0020']
-config.OBJ_FREQ_THRESH = 4
+config.OBJ_FREQ_THRESH = 0.5
 config.IF_ENSEMBLE = True
-config.IF_STACKING = False
+config.IF_STACKING = True

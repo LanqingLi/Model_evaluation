@@ -278,28 +278,45 @@ class FileIter(DataIter):
             neg_imgss = []
             neg_rawss = []
             pos_count = 0
-            tot_count = 0
             neg_list = []
             neg_count = 0
             slice_num = lbls.shape[0]
-            for lbl, img, raw in zip(lbls, imgs, raws):
-                if tot_count < self.seqlen/2 or tot_count > slice_num - self.seqlen/2 - 1 :
-                    #exclude boundary cases
-                    tot_count += 1
-                    continue
+            assert slice_num >= self.seqlen, 'the number of slices of a series must be greater than or equal to %d' % (
+            self.seqlen)
+            for tot_count, (lbl, img, raw) in enumerate(zip(lbls, imgs, raws)):
+                if tot_count < self.seqlen / 2 or tot_count > slice_num - self.seqlen / 2 - 1:
+                    if self.exclude_boundary:
+                        # exclude boundary cases
+                        continue
+                    else:
+                        # if we include boundary cases, pad all out-of-boundary slices as zero
+                        padded_img = np.zeros(shape=(self.seqlen, img.shape[0], img.shape[1]))
+                        if tot_count < self.seqlen / 2:
+                            padded_img[self.seqlen / 2 - tot_count: self.seqlen] = imgs[
+                                                                                   : tot_count + self.seqlen / 2 + 1]
+                            pos_lblss.append(lbl)
+                            pos_imgss.append(padded_img)
+                            pos_rawss.append(raw)
+                            pos_count += 1
+                        else:
+                            padded_img[: self.seqlen * 3 / 2 - tot_count] = imgs[tot_count - self.seqlen / 2:]
+                            pos_lblss.append(lbl)
+                            pos_imgss.append(padded_img)
+                            pos_rawss.append(raw)
+                            pos_count += 1
+
                 else:
                     if np.max(lbl) > 0:
                         pos_lblss.append(lbl)
-                        pos_imgss.append(imgs[tot_count - self.seqlen/2 : tot_count + self.seqlen/2 + 1])
+                        pos_imgss.append(imgs[tot_count - self.seqlen / 2: tot_count + self.seqlen / 2 + 1])
                         pos_rawss.append(raw)
                         pos_count += 1
                     else:
                         neg_lblss.append(lbl)
-                        neg_imgss.append(imgs[tot_count - self.seqlen/2 : tot_count + self.seqlen/2 + 1])
+                        neg_imgss.append(imgs[tot_count - self.seqlen / 2: tot_count + self.seqlen / 2 + 1])
                         neg_rawss.append(raw)
                         neg_list.append(neg_count)
                         neg_count += 1
-                    tot_count += 1
             if lbls.shape[0] - (self.negative_mining_ratio + 1) * pos_count <= 0:  # 若一个sid中，正样本的数量多余负样本数量，则不作样本平衡
                 lblss = pos_lblss + neg_lblss
                 imgss = pos_imgss + neg_imgss

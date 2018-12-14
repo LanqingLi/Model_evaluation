@@ -101,7 +101,7 @@ if __name__ == '__main__':
                                                       conf_thresh=config.TEST.CONF_THRESHOLD,
                                                       fscore_beta=config.FSCORE_BETA,
                                                       if_ensemble=config.IF_ENSEMBLE,
-						      if_stacking=config.IF_STACKING,
+						                              if_stacking=config.IF_STACKING,
                                                       model_weight_list=config.MODEL_WEIGHT_LIST,
                                                       model_conf_list=config.MODEL_CONF_LIST,
                                                       key_list=config.ANCHOR.ALL_KEY_LIST,

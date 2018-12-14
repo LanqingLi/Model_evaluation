@@ -81,6 +81,9 @@ doc/
 target/
 
 **/*.png
+**/*.nrrd
+**/*.xlsx
+**/*.avi
 data/
 **/*_result
 **/*_contour

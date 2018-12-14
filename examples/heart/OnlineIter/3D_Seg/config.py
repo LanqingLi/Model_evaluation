@@ -5,9 +5,9 @@ import numpy as np
 
 
 config = edict()
-config.num_cls = 2
+config.num_cls = 3
 config.gpu = [0, 1, 2, 3]
-config.is_getOffBone = True
+
 # config.TEST = edict()
 #
 #config.TEST.CONF_THRESHOLD = np.linspace(0.001, 0.009, num=9).tolist() + np.linspace(0.01, 0.09, num=9).tolist() + np.linspace(0.1, 0.9, num=9).tolist()
@@ -21,20 +21,20 @@ config.is_getOffBone = True
 # binary classification threshold for drawing contour plot for single threshold for comparison
 config.THRESH = 0.5
 
-config.model_dir = '/mnt/data2/model_evaluation/examples/model'
+config.model_dir = '/mnt/data2/calcium_scoring/CAC-Scoring-Train/model'
 
 
-config.validating = edict()
-config.validating.batch_size = 4
-config.validating.model_name = 'deep_dense_changzheng12+WHTJ+DLZS_bstrap_atrous_randcrop_new_seqlen9'
-config.validating.epoch = 111
-config.validating.valid_dir= '/media/tx-eva-cc/data/cardiac_calcified/anno/test_data'
-config.validating.valid_person = os.listdir(config.validating.valid_dir)
+config.test = edict()
+config.test.batch_size = 4
+config.test.model_name = 'deep_dense_heart_3d_recon_bstrap_randcrop_new_seqlen9_weight3_second_batch'
+config.test.epoch = 6
+config.test.test_dir= '/media/tx-eva-cc/data/3D_recon_data/test_data/test_data/FW_second_batch_test_labeled'
+config.test.test_person = os.listdir(config.test.test_dir)
 
 config.img_shape = (512, 512)
 
-config.window_width = 750
-config.window_center = 90
+config.window_width = 800
+config.window_center = 300
 
 # config.min_crop_shape = [256, 256]
 # config.tgt_crop_shape = [256, 256]

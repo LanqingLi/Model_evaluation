@@ -20,9 +20,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from model_eval.heart.evaluator import HeartSemanticSegEvaluatorOnlineIter
 eval_data = FileIter(
-    root_dir=config.validating.valid_dir,
-    persons=config.validating.valid_person,
+    root_dir=config.test.test_dir,
+    persons=config.test.test_person,
     is_train=False,
+    if_binary=False,
     rgb_mean=(0, 0, 0)
 )
 
@@ -51,38 +52,12 @@ num_preLabel = 0
 # fname = config.validating.fname
 # fobj = open(fname, 'a+')  # 这里的a意思是追加，这样在加了之后就不会覆盖掉源文件中的内容，如果是w则会覆盖。
 
-shape_data = 256
+shape_data = 512
 
-cls_label_xls_path = '/mnt/data2/model_evaluation/examples/heart/OnlineIter/classname_labelname_mapping.xls'
+cls_label_xls_path = '/mnt/data2/model_evaluation/examples/heart/OnlineIter/3D_Seg/classname_labelname_mapping.xls'
 
 #一次只能生成multi_class_evaluation和binary_class_evaluation中的一个,除非每次重新初始化BrainSemanticSegEvaluatorOnlineIter
 # #并修改生成文件名xlsx_name和json_name
-heart_eval = HeartSemanticSegEvaluatorOnlineIter(cls_label_xls_path=cls_label_xls_path,
-                                                 data_iter=eval_data,
-                                                 predictor=predictor.predict,
-                                                 predict_key='data',
-                                                 gt_key='softmax_label',
-                                                 img_key='raw',
-                                                 patient_key='pid',
-						                         voxel_vol_key='voxel_vol',
-                                                 pixel_area_key = 'pixel_area',
-                                                 conf_thresh=np.linspace(0.1, 0.9, num=3).tolist(),
-                                                 if_save_mask=False,
-                                                 post_processor=get_calcium_mask,
-                                                 if_post_process=True
-                                                 )
-
-#
-#
-# 画单阈值contour
-heart_eval.binary_class_contour_plot_single_thresh()
-#print os.getcwd()
-
-
-# 画多阈值contour
-heart_eval.binary_class_contour_plot_multi_thresh()
-
-# 二分类统计指标
 # heart_eval = HeartSemanticSegEvaluatorOnlineIter(cls_label_xls_path=cls_label_xls_path,
 #                                                  data_iter=eval_data,
 #                                                  predictor=predictor.predict,
@@ -90,18 +65,29 @@ heart_eval.binary_class_contour_plot_multi_thresh()
 #                                                  gt_key='softmax_label',
 #                                                  img_key='raw',
 #                                                  patient_key='pid',
-# 						                         voxel_vol_key = 'voxel_vol',
+# 						                           voxel_vol_key='voxel_vol',
 #                                                  pixel_area_key = 'pixel_area',
-#                                                  xlsx_name='binary_class_evaluation.xlsx',
-#                                                  json_name='binary_class_evaluation',
-#                                                  conf_thresh=np.linspace(0.1, 0.9, num=9).tolist(),
-#                                                  if_save_mask=False,
-#                                                  if_post_process=True,
-#                                                  post_processor=get_calcium_mask
+#                                                  conf_thresh=np.linspace(0.6, 0.9, num=1).tolist(),
+#                                                  if_save_mask=True,
+#                                                  post_processor=get_calcium_mask,
+#                                                  if_post_process=False,
+#                                                  data_dir='/media/tx-eva-cc/data/3D_recon_data/test_data/test_data/FW_second_batch_test/FW_second_batch_test/FW_second_batch_test'
 #                                                  )
-# heart_eval.binary_class_evaluation_light()
+
+# #
+# #
+# # 画单阈值contour
+# heart_eval.binary_class_contour_plot_single_thresh()
+# #print os.getcwd()
 #
-#多分类统计指标
+#
+# # 画多阈值contour
+# heart_eval.binary_class_contour_plot_multi_thresh()
+
+#画单阈值多分类contour
+#heart_eval.multi_class_contour_plot_single_thresh()
+
+#二分类统计指标
 heart_eval = HeartSemanticSegEvaluatorOnlineIter(cls_label_xls_path=cls_label_xls_path,
                                                  data_iter=eval_data,
                                                  predictor=predictor.predict,
@@ -109,13 +95,35 @@ heart_eval = HeartSemanticSegEvaluatorOnlineIter(cls_label_xls_path=cls_label_xl
                                                  gt_key='softmax_label',
                                                  img_key='raw',
                                                  patient_key='pid',
- 						                         voxel_vol_key = 'voxel_vol',
+						                         voxel_vol_key = 'voxel_vol',
                                                  pixel_area_key = 'pixel_area',
-                                                 xlsx_name='multi_class_evaluation.xlsx',
-                                                 json_name='multi_class_evaluation',
-                                                 conf_thresh=np.linspace(0.1, 0.9, num=9).tolist(),
+                                                 xlsx_name='binary_class_evaluation.xlsx',
+                                                 json_name='binary_class_evaluation',
+                                                 conf_thresh=np.linspace(0.4, 0.9, num=6).tolist(),
+                                                 thresh=0.5,
                                                  if_save_mask=False,
-                                                 if_post_process=True,
-                                                 post_processor=get_calcium_mask
+                                                 if_post_process=False,
+                                                 data_dir='/media/tx-eva-cc/data/3D_recon_data/test_data/test_data/Exception/Exception/Exception'
                                                  )
+# heart_eval.multi_class_evaluation_light()
+
+# heart_eval.multi_class_contour_plot_single_thresh()
+
+#多分类统计指标
+# heart_eval = HeartSemanticSegEvaluatorOnlineIter(cls_label_xls_path=cls_label_xls_path,
+#                                                  data_iter=eval_data,
+#                                                  predictor=predictor.predict,
+#                                                  predict_key='data',
+#                                                  gt_key='softmax_label',
+#                                                  img_key='raw',
+#                                                  patient_key='pid',
+#  						                         voxel_vol_key = 'voxel_vol',
+#                                                  pixel_area_key = 'pixel_area',
+#                                                  xlsx_name='multi_class_evaluation.xlsx',
+#                                                  json_name='multi_class_evaluation',
+#                                                  conf_thresh=np.linspace(0.6, 0.9, num=4).tolist(),
+#                                                  if_save_mask=False,
+#                                                  if_post_process=True,
+#                                                  post_processor=get_calcium_mask
+#                                                  )
 heart_eval.multi_class_evaluation_light()
